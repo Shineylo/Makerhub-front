@@ -5,7 +5,7 @@ import {AccueilComponent} from "./Components/accueil/accueil.component";
 const routes: Routes = [
   { path: '', redirectTo: 'accueil', pathMatch: 'full'},
   { path: 'accueil', component: AccueilComponent},
-
+  { path: 'ingredient', loadChildren: () => import('./ingredient/ingredient-routing.module').then( m => m.IngredientRoutingModule ) },
 ];
 
 @NgModule({
