@@ -29,7 +29,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let ingredient of ingredients">
+          <tr *ngFor="let ingredient of ingredientsFilter$ | async ; index as i">
             <th scope="row">{{ ingredient.id }}</th>
             <td>
               {{ ingredient.name }}

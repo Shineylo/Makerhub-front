@@ -1,4 +1,4 @@
-import {DatePipe, DecimalPipe, NgFor} from '@angular/common';
+import {AsyncPipe, DatePipe, DecimalPipe, NgFor} from '@angular/common';
 import {
   Component,
   Directive,
@@ -14,6 +14,7 @@ import { IngredientService } from "../../service/ingredient.service";
 import {RouterLink} from "@angular/router";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {NgbPagination} from "@ng-bootstrap/ng-bootstrap";
+import {async, map, Observable, startWith} from "rxjs";
 
 interface Ingredient {
   name: string;
@@ -58,17 +59,23 @@ export class NgbdSortableHeader {
 @Component({
   selector: 'ngbd-table-sortable',
   standalone: true,
-  imports: [DecimalPipe, NgFor, NgbdSortableHeader, DatePipe, RouterLink, ReactiveFormsModule, NgbPagination],
+  imports: [DecimalPipe, NgFor, NgbdSortableHeader, DatePipe, RouterLink, ReactiveFormsModule, NgbPagination, AsyncPipe],
   templateUrl: './accueil.component.html',
 })
 export class AccueilComponent implements OnInit{
   ingredients:any[] = [];
+  ingredientsFilter$:Observable<any[]>
   filter = new FormControl('', { nonNullable: true });
   page = 1;
   pageSize = 15;
   collectionSize = this.ingredients.length;
+
   constructor(private readonly _ingredientService: IngredientService,pipe: DecimalPipe) {
     this.refreshCountries();
+    this.ingredientsFilter$ = this.filter.valueChanges.pipe(
+      startWith(''),
+      map((text) => this.search(text, pipe)),
+    );
   }
 
   refreshCountries() {
@@ -80,7 +87,9 @@ export class AccueilComponent implements OnInit{
 
   ngOnInit(){
     this._ingredientService.getAll().subscribe({
-      next: (resp =>this.ingredients = resp)
+      next: (resp => {
+        this.ingredients = resp;
+      })
     })
   }
 
