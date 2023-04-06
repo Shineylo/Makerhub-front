@@ -13,6 +13,7 @@ import {
 import { IngredientService } from "../../service/ingredient.service";
 import {RouterLink} from "@angular/router";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {NgbPagination} from "@ng-bootstrap/ng-bootstrap";
 
 interface Ingredient {
   name: string;
@@ -57,13 +58,24 @@ export class NgbdSortableHeader {
 @Component({
   selector: 'ngbd-table-sortable',
   standalone: true,
-  imports: [DecimalPipe, NgFor, NgbdSortableHeader, DatePipe, RouterLink, ReactiveFormsModule],
+  imports: [DecimalPipe, NgFor, NgbdSortableHeader, DatePipe, RouterLink, ReactiveFormsModule, NgbPagination],
   templateUrl: './accueil.component.html',
 })
 export class AccueilComponent implements OnInit{
   ingredients:any[] = [];
   filter = new FormControl('', { nonNullable: true });
+  page = 1;
+  pageSize = 15;
+  collectionSize = this.ingredients.length;
   constructor(private readonly _ingredientService: IngredientService,pipe: DecimalPipe) {
+    this.refreshCountries();
+  }
+
+  refreshCountries() {
+    this.ingredients = this.ingredients.map((ingredient, i) => ({ id: i + 1, ...ingredient })).slice(
+      (this.page - 1) * this.pageSize,
+      (this.page - 1) * this.pageSize + this.pageSize,
+    );
   }
 
   ngOnInit(){
