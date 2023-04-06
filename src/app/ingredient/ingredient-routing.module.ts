@@ -5,8 +5,11 @@ import {NewComponent} from "./new/new.component";
 
 const routes: Routes = [
 
-  { path: 'accueil', component: AccueilComponent},
-  { path: 'new', component: NewComponent},
+  {path: '',children:[
+      { path: 'accueil', component: AccueilComponent},
+      { path: 'new', component: NewComponent},
+
+    ]}
 
 ]
 

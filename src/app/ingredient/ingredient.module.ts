@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccueilComponent } from './accueil/accueil.component';
-import {HttpClientModule} from "@angular/common/http";
-import {RouterLink} from "@angular/router";
+import { HttpClientModule } from "@angular/common/http";
 import { NewComponent } from './new/new.component';
+import { CardComponent } from './accueil/card/card.component';
+import { IngredientRoutingModule } from "./ingredient-routing.module";
 
 
 
 @NgModule({
   declarations: [
     AccueilComponent,
-    NewComponent
+    NewComponent,
+    CardComponent
   ],
   imports: [
     CommonModule,
-    HttpClientModule,
-    RouterLink
+    IngredientRoutingModule
   ]
 })
 export class IngredientModule { }
