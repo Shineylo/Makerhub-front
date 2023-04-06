@@ -1,13 +1,36 @@
 <div class="p-2">
 <div class="row g-0">
-  <div class="col-2 text-center" style="height: 100vh">
+  <div class="col-2 text-center" style="height: 100%">
     <button type="button" class="btn btn-primary">Ajouter un ingredient</button>
   </div>
   <div class="col ">
     <div class="overflow-y-auto"  style=" max-height: 100vh;">
       <div class="row row-cols-1 row-cols-md-3 g-0">
-        <app-card *ngFor="let ingredient of ingredients" >
-        </app-card>
+
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">Ingredient</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Quantitée</th>
+            <th scope="col">Unité de mesure</th>
+            <th scope="col">Marque</th>
+            <th scope="col">Date de péremption</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let ingredient of ingredients; index as i">
+            <td>
+              {{ ingredient.name }}
+            </td>
+            <td>{{ ingredient.price }}</td>
+            <td>{{ ingredient.quantity }}</td>
+            <td>{{ ingredient.unitOfMeasure.name }}</td>
+            <td>{{ ingredient.brand.name }}</td>
+            <td>{{ ingredient.expiration | date : 'longDate':undefined :'fr-BE'}}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

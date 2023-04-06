@@ -9,6 +9,10 @@ import {AppRoutingModule} from "./app-routing.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule} from "@angular/common/http";
 
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr');
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +26,7 @@ import {HttpClientModule} from "@angular/common/http";
     NgbModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{provide: localeFr, useValue: 'fr'} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
