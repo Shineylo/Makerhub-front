@@ -9,7 +9,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule} from "@angular/common/http";
 
-import { registerLocaleData } from '@angular/common';
+import {DecimalPipe, registerLocaleData} from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 registerLocaleData(localeFr, 'fr');
 
@@ -18,7 +18,7 @@ registerLocaleData(localeFr, 'fr');
     AppComponent,
     AccueilComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +26,10 @@ registerLocaleData(localeFr, 'fr');
     NgbModule,
     HttpClientModule
   ],
-  providers: [{provide: localeFr, useValue: 'fr'} ],
+  providers: [
+    {provide: localeFr, useValue: 'fr'} ,
+    DecimalPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
