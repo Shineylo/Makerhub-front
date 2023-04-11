@@ -1,57 +1,57 @@
 <div class="p-2">
 <div class="row g-0">
   <div class="col-2 text-center" style="height: 100%">
-    <button type="button" class="btn btn-primary" routerLink="ingredient/new" >Ajouter un ingredient</button>
+    <button type="button" class="btn btn-primary" routerLink="../new" >Ajouter un ingredient</button>
   </div>
   <div class="col ">
     <div class="overflow-y-auto"  style=" max-height: 100vh;">
       <div class="row row-cols-1 row-cols-md-3 g-0">
-
         <form>
-          <div class="mb-3 row">
-            <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+          <div class=" row">
+            <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
             <div class="col-xs-3 col-sm-auto">
-              <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter" />
+              <input
+                id="table-complete-search"
+                type="text"
+                class="form-control"
+                name="searchTerm"
+                [(ngModel)]="_ingredientService.searchTerm"
+              />
             </div>
+            <span class="col col-form-label" *ngIf="_ingredientService.loading$ | async">Loading...</span>
+          </div>
+
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col" sortable="name" (sort)="onSort($event)">Ingredient</th>
+              <th scope="col" sortable="price" (sort)="onSort($event)">Prix</th>
+              <th scope="col" sortable="quantity" (sort)="onSort($event)">Quantitée</th>
+              <th scope="col" sortable="unitOfMeasure" (sort)="onSort($event)">Unité de mesure</th>
+              <th scope="col" sortable="brand" (sort)="onSort($event)">Marque</th>
+              <th scope="col" sortable="expiration" (sort)="onSort($event)">Date de péremption</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ingredient of ingredients$ | async">
+              <th scope="row">{{ ingredient.id }}</th>
+              <td><ngb-highlight [result]="ingredient.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
+              <td><ngb-highlight [result]="ingredient.price | number" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
+              <td><ngb-highlight [result]="ingredient.quantity | number" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
+              <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
+              <td><ngb-highlight [result]="ingredient.brand.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
+              <td><ngb-highlight [result]="ingredient.expiration | date : 'longDate':undefined :'fr-BE'" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
+
+            </tr>
+            </tbody>
+          </table>
+
+          <div class="d-flex justify-content-between p-2">
+            <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="_ingredientService.page" [pageSize]="_ingredientService.pageSize">
+            </ngb-pagination>
           </div>
         </form>
-
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col" sortable="name" (sort)="onSort($event)">Ingredient</th>
-            <th scope="col" sortable="price" (sort)="onSort($event)">Prix</th>
-            <th scope="col" sortable="quantity" (sort)="onSort($event)">Quantitée</th>
-            <th scope="col" sortable="unitOfMeasure" (sort)="onSort($event)">Unité de mesure</th>
-            <th scope="col" sortable="brand" (sort)="onSort($event)">Marque</th>
-            <th scope="col" sortable="expiration" (sort)="onSort($event)">Date de péremption</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let ingredient of ingredientsFilter$ | async ; index as i">
-            <th scope="row">{{ ingredient.id }}</th>
-            <td>
-              {{ ingredient.name }}
-            </td>
-            <td>{{ ingredient.price }}</td>
-            <td>{{ ingredient.quantity }}</td>
-            <td>{{ ingredient.unitOfMeasure.name }}</td>
-            <td>{{ ingredient.brand.name }}</td>
-            <td>{{ ingredient.expiration | date : 'longDate':undefined :'fr-BE'}}</td>
-          </tr>
-          </tbody>
-        </table>
-        <div class="d-flex justify-content-between p-2">
-          <ngb-pagination
-            [collectionSize]="collectionSize"
-            [(page)]="page"
-            [pageSize]="pageSize"
-            (pageChange)="refreshCountries()"
-          >
-          </ngb-pagination>
-
-        </div>
       </div>
     </div>
   </div>
