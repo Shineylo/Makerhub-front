@@ -19,11 +19,23 @@ export class HeaderComponent {
         case "ingredient":
           pagesplit[elem] = "Ingrédient"
           break;
-        case "accueil":
+        case "home":
           pagesplit[elem] = "Accueil"
           break;
         case "new":
           pagesplit[elem] = "Création"
+          break;
+        case "product":
+          pagesplit[elem] = "Produit"
+          break;
+        case "order":
+          pagesplit[elem] = "Commande"
+          break;
+        case "update":
+          pagesplit[elem] = "Modifier"
+          break;
+        case "delete":
+          pagesplit[elem] = "Supprimer"
           break;
       }
     }

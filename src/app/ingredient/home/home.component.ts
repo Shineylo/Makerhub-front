@@ -18,10 +18,10 @@ import { SorttableDirective, SortEvent } from "../../directive/sorttable.directi
   selector: 'app-accueil',
   standalone: true,
   imports: [DecimalPipe, NgFor, SorttableDirective, DatePipe, RouterLink, ReactiveFormsModule, NgbPagination, AsyncPipe, FormsModule, NgbHighlight, NgIf],
-  templateUrl: './accueil.component.html',
+  templateUrl: './home.component.html',
   providers: [IngredientService, DecimalPipe],
 })
-export class AccueilComponent implements OnInit{
+export class HomeComponent implements OnInit{
   ingredients$: Observable<Ingredient[]>
   total$: Observable<number>;
 

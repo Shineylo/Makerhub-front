@@ -40,8 +40,8 @@
               <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
               <td><ngb-highlight [result]="ingredient.brand.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
               <td><ngb-highlight [result]="ingredient.expiration | date : 'longDate':undefined :'fr-BE'" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-              <button type="button" class="btn btn-outline-info"  >Modifier</button>
-              <button type="button" class="btn btn-outline-danger " >Supprimer</button>
+              <button type="button" class="btn btn-outline-info"  routerLink="../update/{{ingredient.id}}">Modifier</button>
+              <button type="button" class="btn btn-outline-danger" routerLink="../delete/{{ingredient.id}}">Supprimer</button>
             </tr>
             </tbody>
           </table>
