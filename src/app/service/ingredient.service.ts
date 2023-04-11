@@ -4,10 +4,10 @@ import {
   BehaviorSubject,
   catchError,
   debounceTime,
-  delay, map, NEVER, never,
+  delay, map, NEVER,
   Observable,
   of,
-  Subject,
+  Subject, Subscription,
   switchMap,
   tap,
   throwError
@@ -33,7 +33,7 @@ interface State {
 
 const compare = (v1: string | number | Brand | UnitOfMeasure, v2: string | number| Brand | UnitOfMeasure) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
 
-function sort(ingredients: Ingredient[], column: SortColumn, direction: string): Ingredient[] {
+function sort(ingredients : Ingredient[], column: SortColumn, direction: string): Ingredient[] {
   if (direction === '' || column === '') {
     return ingredients;
   } else {
@@ -49,9 +49,8 @@ function matches(ingredient: Ingredient, term: string, pipe: PipeTransform) {
     ingredient.name.toLowerCase().includes(term.toLowerCase()) ||
     pipe.transform(ingredient.price).includes(term) ||
     pipe.transform(ingredient.quantity).includes(term)||
-    pipe.transform(ingredient.unitOfMeasure).includes(term) ||
-    pipe.transform(ingredient.brand).includes(term)||
-    pipe.transform(ingredient.expiration).includes(term)
+    ingredient.unitOfMeasure.name.includes(term) ||
+    ingredient.brand.name.includes(term)
   );
 }
 
@@ -63,10 +62,11 @@ export class IngredientService {
   private _search$ = new Subject<void>();
   private _ingredients$ = new BehaviorSubject<Ingredient[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
+  private _ingredient?:Ingredient[];
 
   private _state: State = {
     page: 1,
-    pageSize: 15,
+    pageSize: 14,
     searchTerm: '',
     sortColumn: '',
     sortDirection: '',
@@ -76,7 +76,7 @@ export class IngredientService {
     private readonly _httpClient: HttpClient,
     private pipe: DecimalPipe
   ) {
-
+    this.getAll().subscribe(ingredients => this._ingredient = ingredients);
     this._search$
       .pipe(
         tap(() => this._loading$.next(true)),
@@ -90,6 +90,10 @@ export class IngredientService {
         this._total$.next(result.total);
       });
     this._search$.next();
+  }
+
+  get listingredients(){
+    return this._ingredient;
   }
 
   get ingredients$() {
@@ -135,6 +139,7 @@ export class IngredientService {
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 
+
     if(!this._ingredient)
       return of({ingredients: [], total: 0});
 
@@ -166,7 +171,6 @@ export class IngredientService {
   //   );
   // }
 
-  private _ingredient?: Ingredient[];
   getAll(){
     return this._httpClient.get<any[]>('http://localhost:8080/api/ingredient/all').pipe(
       catchError((error) => {
@@ -178,4 +182,5 @@ export class IngredientService {
   create(form: any){
     return this._httpClient.post<any>('http://localhost:8080/api/ingredient/new',form).pipe();
   }
+
 }

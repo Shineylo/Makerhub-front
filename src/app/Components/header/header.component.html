@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg" style="background-color: cornflowerblue">
   <div class="container-fluid">
-    <a class="navbar-brand">{{section}} {{page}}</a>
+    <a class="navbar-brand">{{getTitle()}}</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -8,13 +8,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/ingredient/accueil" (click)="section='Ingredient'">Ingredients</a>
+          <a class="nav-link" routerLink="/ingredient/accueil" >Ingredients</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link" routerLink="/ingredient/accueil">Produit</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
+          <a class="nav-link " routerLink="/ingredient/accueil">Commande</a>
         </li>
       </ul>
     </div>

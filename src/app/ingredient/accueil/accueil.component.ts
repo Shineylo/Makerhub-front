@@ -24,7 +24,6 @@ import { SorttableDirective, SortEvent } from "../../directive/sorttable.directi
 export class AccueilComponent implements OnInit{
   ingredients$: Observable<Ingredient[]>
   total$: Observable<number>;
-  ingredients: Ingredient[]= [];
 
   @ViewChildren(SorttableDirective) headers!: QueryList<SorttableDirective>;
 
@@ -34,11 +33,7 @@ export class AccueilComponent implements OnInit{
   }
 
   ngOnInit(){
-    this._ingredientService.getAll().subscribe({
-      next: (resp => {
-        this.ingredients = resp;
-      })
-    })
+    console.log(this._ingredientService.listingredients);
   }
 
   onSort({ column, direction }: SortEvent) {
