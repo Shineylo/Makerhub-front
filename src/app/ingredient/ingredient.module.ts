@@ -5,6 +5,7 @@ import { NewComponent } from './new/new.component';
 import { IngredientRoutingModule } from "./ingredient-routing.module";
 import { DeleteComponent } from './delete/delete.component';
 import { UpdateComponent } from './update/update.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { UpdateComponent } from './update/update.component';
   imports: [
     HomeComponent,
     CommonModule,
-    IngredientRoutingModule
+    IngredientRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class IngredientModule { }

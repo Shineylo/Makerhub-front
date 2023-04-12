@@ -2,7 +2,7 @@ import {Brand} from "./brand";
 import {UnitOfMeasure} from "./unitOfMeasure";
 
 export interface Ingredient {
-  id : number;
+  id : number; //
   name: string;
   price: number;
   quantity: number;

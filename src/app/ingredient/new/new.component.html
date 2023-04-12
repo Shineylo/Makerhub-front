@@ -5,11 +5,11 @@
       <div class="card border-0 shadow rounded-3 my-5 " style="background-color: cornflowerblue">
         <div class="card-body p-4 p-sm-5">
           <h5 class="card-title text-center mb-5 fw-light fs-5">Création d'ingrédient</h5>
-          <form>
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="row">
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="name">
-                <label for="name">Nom</label>
+                <input type="text" class="form-control" id="in-name" formControlName="name">
+                <label for="in-name">Nom</label>
               </div>
 
               <div class="form-floating mb-3">
@@ -23,12 +23,16 @@
               </div>
 
               <div class="form-floating mb-3 col">
-                <input type="text" class="form-control" id="unitOfMeasure" >
+                <select class="form-select" id="unitOfMeasure">
+                  <option *ngFor="let unit of unitOfMeasures" [value]="unit.id">{{unit.name}}</option>
+                </select>
                 <label for="unitOfMeasure">Unité de mesure</label>
               </div>
 
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="brand" >
+                <select class="form-select" id="brand">
+                  <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</option>
+                </select>
                 <label for="brand">Marque</label>
               </div>
 

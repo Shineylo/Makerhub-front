@@ -183,4 +183,35 @@ export class IngredientService {
     return this._httpClient.post<any>('http://localhost:8080/api/ingredient/new',form).pipe();
   }
 
+  getAllBrand(){
+    return this._httpClient.get<Brand[]>('http://localhost:8080/api/brand/all')
+      .pipe(
+        map((brands: Brand[]) => {
+          const newBrand = brands.map((brand: Brand) => {
+            return {id: brand.id, name:  brand.name}
+          });
+          return brands;
+        }),
+        // Gestion de l'erreur
+        catchError((error) => {
+          return throwError(() => new Error("ERREUR"))
+        })
+      );
+  }
+  getAllUOfM(){
+    return this._httpClient.get<UnitOfMeasure[]>('http://localhost:8080/api/unitofmeasure/all')
+      .pipe(
+        map((unitOfMeasures: UnitOfMeasure[]) => {
+          const newBrand = unitOfMeasures.map((unitOfMeasure: UnitOfMeasure) => {
+            return {id: unitOfMeasure.id, name:  unitOfMeasure.name}
+          });
+          return unitOfMeasures;
+        }),
+        // Gestion de l'erreur
+        catchError((error) => {
+          return throwError(() => new Error("ERREUR"))
+        })
+      );
+  }
+
 }
