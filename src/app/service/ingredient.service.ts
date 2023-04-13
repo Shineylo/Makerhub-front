@@ -173,6 +173,7 @@ export class IngredientService {
 
   getAll(){
     return this._httpClient.get<any[]>('http://localhost:8080/api/ingredient/all').pipe(
+      tap(ings => this._ingredient = ings),
       catchError((error) => {
         return throwError(() => new Error("ERREUR"))
       })

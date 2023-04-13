@@ -24,23 +24,16 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col" sortable="name" (sort)="onSort($event)">Ingredient</th>
-              <th scope="col" sortable="price" (sort)="onSort($event)">Prix</th>
-              <th scope="col" sortable="quantity" (sort)="onSort($event)">Quantitée</th>
-              <th scope="col" sortable="unitOfMeasure" >Unité de mesure</th>
-              <th scope="col" sortable="brand" >Marque</th>
-              <th scope="col" sortable="expiration" (sort)="onSort($event)">Date de péremption</th>
+              <th scope="col" sortable="unitOfMeasure" (sort)="onSort($event)">Unité de mesure</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let ingredient of ingredients$ | async">
+            <tr *ngFor="let ingredient of ingredients$ | async" >
               <th scope="row">{{ ingredient.id }}</th>
               <td><ngb-highlight [result]="ingredient.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-              <td><ngb-highlight [result]="ingredient.price | number" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-              <td><ngb-highlight [result]="ingredient.quantity | number" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
               <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-              <td><ngb-highlight [result]="ingredient.brand.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-              <td><ngb-highlight [result]="ingredient.expiration | date : 'longDate':undefined :'fr-BE'" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-              <button type="button" class="btn btn-outline-info"  routerLink="../update/{{ingredient.id}}">Modifier</button>
+<!--              <td><ngb-highlight [result]="ingredient.expiration | date : 'longDate':undefined :'fr-BE'" [term]="_ingredientService.searchTerm"></ngb-highlight></td>-->
+              <button type="button" class="btn btn-outline-info" (click)="openVerticallyCentered({content : content})">Stock</button>
               <button type="button" class="btn btn-outline-danger" routerLink="../delete/{{ingredient.id}}">Supprimer</button>
             </tr>
             </tbody>
@@ -56,3 +49,16 @@
   </div>
 </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p>One fine body&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

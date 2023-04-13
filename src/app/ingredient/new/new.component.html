@@ -12,34 +12,13 @@
                 <label for="in-name">Nom</label>
               </div>
 
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="price">
-                <label for="price">Prix/Unité</label>
-              </div>
-
-              <div class="form-floating mb-3 col">
-                <input type="number" class="form-control" id="quantity" >
-                <label for="quantity">Quantitée</label>
-              </div>
-
-              <div class="form-floating mb-3 col">
-                <select class="form-select" id="unitOfMeasure">
-                  <option *ngFor="let unit of unitOfMeasures" [value]="unit.id">{{unit.name}}</option>
+              <div class="form-floating mb-3 ">
+                <select class="form-select" id="unitOfMeasure" formControlName="unitOfMeasureId">
+                  <option *ngFor="let unit of unitOfMeasures" [value]="unit.id">{{unit.name}} </option>
                 </select>
                 <label for="unitOfMeasure">Unité de mesure</label>
               </div>
 
-              <div class="form-floating mb-3">
-                <select class="form-select" id="brand">
-                  <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</option>
-                </select>
-                <label for="brand">Marque</label>
-              </div>
-
-              <div class="form-floating mb-3">
-                <input type="date" class="form-control" id="expiration" >
-                <label for="expiration">Date de péremption</label>
-              </div>
 
               <div class="d-grid">
                 <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Créer</button>

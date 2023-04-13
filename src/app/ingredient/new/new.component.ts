@@ -21,21 +21,20 @@ export class NewComponent {
 
     this.form = new FormGroup({
       'name' : new FormControl(''),
-      'price' : new FormControl(''),
-      'quantity' : new FormControl(''),
-      'expiration' : new FormControl(''),
       'unitOfMeasureId' : new FormControl(''),
-      'brandId': new FormControl('')
     });
-    this._ingredientService.getAllBrand().subscribe({
-      next: (resp)=> this.brands = resp
-    })
     this._ingredientService.getAllUOfM().subscribe({
       next: (resp)=> this.unitOfMeasures = resp
     })
   }
 
   onSubmit() {
-
+    console.log(this.form.value);
+    if( this.form.valid ){
+      const data = {
+        ...this.form.value
+      }
+      this._ingredientService.create( data ).subscribe( () => this.form.reset() )
+    }
   }
 }
