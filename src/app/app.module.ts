@@ -11,7 +11,6 @@ import {HttpClientModule} from "@angular/common/http";
 
 import {DecimalPipe, registerLocaleData} from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { SorttableDirective } from './directive/sorttable.directive';
 registerLocaleData(localeFr, 'fr');
 
 @NgModule({
@@ -26,7 +25,6 @@ registerLocaleData(localeFr, 'fr');
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    SorttableDirective,
   ],
   providers: [
     {provide: localeFr, useValue: 'fr'} ,

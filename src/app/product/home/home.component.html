@@ -1,60 +1,44 @@
-<!--<div class="py-2">
-  <div class="row g-0">
-    <div class="col-2 text-center" style="height: 100%">
-      <button type="button" class="btn btn-primary" routerLink="../new" >Ajouter un ingredient</button>
-    </div>
-    <div class=" col">
-      <div >
-        <div class="row row-cols-1 row-cols- g-0">
-          <form>
-            <div class="row g-0">
-              <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
-              <input
-                id="table-complete-search"
-                type="text"
-                class="form-control w-25 col-1"
-                name="searchTerm"
-                [(ngModel)]="_ingredientService.searchTerm"
-              />
-              <div class="col w-25 " *ngIf="_ingredientService.loading$ | async">Loading...</div>
-            </div>
-
-            <table class="table ">
-              <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col" sortable="name">Ingredient</th>
-                <th scope="col" sortable="unitOfMeasure">Unité de mesure</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let ingredient of ingredients$ | async" >
-                <th scope="row">{{ ingredient.id }}</th>
-                <td><ngb-highlight [result]="ingredient.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-                <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-                &lt;!&ndash;              <td><ngb-highlight [result]="ingredient.expiration | date : 'longDate':undefined :'fr-BE'" [term]="_ingredientService.searchTerm"></ngb-highlight></td>&ndash;&gt;
-                <button type="button" class="btn btn-outline-info" (click)="openVerticallyCentered({content : content})">Stock</button>
-                <button type="button" class="btn btn-outline-danger" routerLink="../delete/{{ingredient.id}}">Supprimer</button>
-              </tr>
-              </tbody>
-            </table>
-
-            <div class="d-flex justify-content-between p-2">
-              <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="_ingredientService.page" [pageSize]="_ingredientService.pageSize">
-              </ngb-pagination>
-            </div>
-          </form>
-        </div>
-      </div>
+<!--<form>
+  <div class="mb-3 row">
+    <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+    <div class="col-xs-3 col-sm-auto">
+      <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter" />
     </div>
   </div>
-</div>
+</form>
 
-<ng-template #content let-modal>
-  <div class="modal-body">
-    <p>One fine body&hellip;</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-  </div>
-</ng-template>-->
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Country</th>
+    <th scope="col">Area</th>
+    <th scope="col">Population</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let country of countries$ | async; index as i">
+    <th scope="row">{{ i + 1 }}</th>
+    <td>
+      <img
+        [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag"
+        class="me-2"
+        style="width: 20px"
+      />
+      <ngb-highlight [result]="country.name" [term]="filter.value"></ngb-highlight>
+    </td>
+    <td><ngb-highlight [result]="country.area | number" [term]="filter.value"></ngb-highlight></td>
+    <td><ngb-highlight [result]="country.population | number" [term]="filter.value"></ngb-highlight></td>
+  </tr>
+  </tbody>
+</table>
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination
+    [collectionSize]="collectionSize"
+    [(page)]="page"
+    [pageSize]="pageSize"
+    (pageChange)="refreshCountries()"
+  >
+  </ngb-pagination>
+
+</div>-->

@@ -13,7 +13,6 @@ import {
   throwError
 } from "rxjs";
 import {Ingredient} from "../model/ingredient";
-import {SortColumn, SortDirection} from "../directive/sorttable.directive";
 import {DecimalPipe} from "@angular/common";
 import {Brand} from "../model/brand";
 import {UnitOfMeasure} from "../model/unitOfMeasure";
@@ -27,30 +26,13 @@ interface State {
   page: number;
   pageSize: number;
   searchTerm: string;
-  sortColumn: SortColumn;
-  sortDirection: SortDirection;
 }
 
-const compare = (v1: string | number | Brand | UnitOfMeasure, v2: string | number| Brand | UnitOfMeasure) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
-
-function sort(ingredients : Ingredient[], column: SortColumn, direction: string): Ingredient[] {
-  if (direction === '' || column === '') {
-    return ingredients;
-  } else {
-    return [...ingredients].sort((a, b) => {
-      const res = compare(a[column], b[column]);
-      return direction === 'asc' ? res : -res;
-    });
-  }
-}
 
 function matches(ingredient: Ingredient, term: string, pipe: PipeTransform) {
   return (
     ingredient.name.toLowerCase().includes(term.toLowerCase()) ||
-    pipe.transform(ingredient.price).includes(term) ||
-    pipe.transform(ingredient.quantity).includes(term)||
-    ingredient.unitOfMeasure.name.includes(term) ||
-    ingredient.brand.name.includes(term)
+    ingredient.unitOfMeasure.name.includes(term)
   );
 }
 
@@ -68,8 +50,6 @@ export class IngredientService {
     page: 1,
     pageSize: 14,
     searchTerm: '',
-    sortColumn: '',
-    sortDirection: '',
   };
 
   constructor(
@@ -95,7 +75,6 @@ export class IngredientService {
   get listingredients(){
     return this._ingredient;
   }
-
   get ingredients$() {
     return this._ingredients$.asObservable();
   }
@@ -124,12 +103,6 @@ export class IngredientService {
   set searchTerm(searchTerm: string) {
     this._set({ searchTerm });
   }
-  set sortColumn(sortColumn: SortColumn) {
-    this._set({ sortColumn });
-  }
-  set sortDirection(sortDirection: SortDirection) {
-    this._set({ sortDirection });
-  }
 
   private _set(patch: Partial<State>) {
     Object.assign(this._state, patch);
@@ -137,14 +110,14 @@ export class IngredientService {
   }
 
   private _search(): Observable<SearchResult> {
-    const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
+    const { pageSize, page, searchTerm } = this._state;
 
 
     if(!this._ingredient)
       return of({ingredients: [], total: 0});
 
     // 1. sort
-    let ingredients = sort(this._ingredient, sortColumn, sortDirection);
+    let ingredients = this._ingredient;
 
     // 2. filter
     ingredients = ingredients.filter((ingredient) => matches(ingredient, searchTerm, this.pipe));

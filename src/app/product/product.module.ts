@@ -4,7 +4,6 @@ import { HomeComponent } from './home/home.component';
 import {ProductRoutingModule} from "./product-routing.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbHighlight, NgbPagination} from "@ng-bootstrap/ng-bootstrap";
-import {SorttableDirective} from "../directive/sorttable.directive";
 
 
 
@@ -19,7 +18,6 @@ import {SorttableDirective} from "../directive/sorttable.directive";
         NgbHighlight,
         NgbPagination,
         ReactiveFormsModule,
-        SorttableDirective
     ]
 })
 export class ProductModule { }
