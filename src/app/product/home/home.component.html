@@ -1,4 +1,4 @@
-<div class="py-2">
+<!--<div class="py-2">
   <div class="row g-0">
     <div class="col-2 text-center" style="height: 100%">
       <button type="button" class="btn btn-primary" routerLink="../new" >Ajouter un ingredient</button>
@@ -32,7 +32,7 @@
                 <th scope="row">{{ ingredient.id }}</th>
                 <td><ngb-highlight [result]="ingredient.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
                 <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-                <!--              <td><ngb-highlight [result]="ingredient.expiration | date : 'longDate':undefined :'fr-BE'" [term]="_ingredientService.searchTerm"></ngb-highlight></td>-->
+                &lt;!&ndash;              <td><ngb-highlight [result]="ingredient.expiration | date : 'longDate':undefined :'fr-BE'" [term]="_ingredientService.searchTerm"></ngb-highlight></td>&ndash;&gt;
                 <button type="button" class="btn btn-outline-info" (click)="openVerticallyCentered({content : content})">Stock</button>
                 <button type="button" class="btn btn-outline-danger" routerLink="../delete/{{ingredient.id}}">Supprimer</button>
               </tr>
@@ -57,4 +57,4 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
   </div>
-</ng-template>
+</ng-template>-->
