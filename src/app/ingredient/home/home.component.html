@@ -51,10 +51,23 @@
 </div>
 
 <ng-template #content let-modal>
-  <div class="modal-body">
-    <p>One fine body&hellip;</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  <table class="table ">
+    <thead>
+    <tr>
+      <th scope="col" >Ingredient</th>
+      <th scope="col"  >Unité de mesure</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ingredient of ingredients$ | async" >
+        <td><ngb-highlight [result]="ingredient.name"> </ngb-highlight></td>
+        <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" ></ngb-highlight></td>
+        <button type="button" class="btn btn-outline-info" (click)="openVerticallyCentered({content : content})">Stock</button>
+        <button type="button" class="btn btn-outline-danger" routerLink="../delete/{{ingredient.id}}">Supprimer</button>
+      </tr>
+    </tbody>
+  </table>
+  <div class="align-content-center text-center">
+    <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
   </div>
 </ng-template>
