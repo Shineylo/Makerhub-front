@@ -157,6 +157,11 @@ export class IngredientService {
     return this._httpClient.post<any>('http://localhost:8080/api/ingredient/new',form).pipe();
   }
 
+  delete(id:number){
+    console.log('http://localhost:8080/api/ingredient/'+id+'/delete');
+    return this._httpClient.post<any>('http://localhost:8080/api/ingredient/'+id+'/delete',id).pipe();
+  }
+
   getAllBrand(){
     return this._httpClient.get<Brand[]>('http://localhost:8080/api/brand/all')
       .pipe(

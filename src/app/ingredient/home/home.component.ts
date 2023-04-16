@@ -10,7 +10,7 @@ import { IngredientService } from "../../service/ingredient.service";
 import { RouterLink } from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbHighlight, NgbModal, NgbPagination} from "@ng-bootstrap/ng-bootstrap";
-import {filter, Observable} from "rxjs";
+import {filter, map, Observable} from "rxjs";
 import { Ingredient } from "../../model/ingredient";
 
 @Component({
@@ -23,6 +23,8 @@ import { Ingredient } from "../../model/ingredient";
 export class HomeComponent implements OnInit{
   ingredients$: Observable<Ingredient[]>
   total$: Observable<number>;
+  ingredientId=0;
+  ingredientName ="none"
 
   constructor(readonly _ingredientService: IngredientService, pipe: DecimalPipe,private modalService: NgbModal) {
     this.ingredients$ = _ingredientService.ingredients$;
@@ -30,11 +32,14 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(){
-    console.log(this._ingredientService.listingredients);
   }
 
   openVerticallyCentered({content}: { content: any }) {
     this.modalService.open(content, { centered: true });
   }
 
+  delete() {
+    this._ingredientService.delete(this.ingredientId);
+    this.modalService.dismissAll();
+  }
 }

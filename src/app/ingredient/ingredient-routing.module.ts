@@ -3,15 +3,13 @@ import {HomeComponent} from "./home/home.component";
 import {NgModule} from "@angular/core";
 import {NewComponent} from "./new/new.component";
 import {UpdateComponent} from "./update/update.component";
-import {DeleteComponent} from "./delete/delete.component";
 
 const routes: Routes = [
 
   {path: '',children:[
       { path: 'home', component: HomeComponent},
       { path: 'new', component: NewComponent},
-      { path: 'update/:id', component: UpdateComponent},
-      { path: 'delete/:id', component: DeleteComponent},
+      { path: 'update/:id', component: UpdateComponent}
     ]}
 
 ]

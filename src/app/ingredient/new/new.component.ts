@@ -3,6 +3,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {IngredientService} from "../../service/ingredient.service";
 import {Brand} from "../../model/brand";
 import {UnitOfMeasure} from "../../model/unitOfMeasure";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new',
@@ -14,7 +15,7 @@ export class NewComponent {
   brands:Brand[] = [];
   unitOfMeasures:UnitOfMeasure[] = []
 
-  constructor(private readonly _ingredientService: IngredientService) {
+  constructor(private readonly _ingredientService: IngredientService,private readonly _router : Router) {
   }
 
   ngOnInit(){
@@ -30,11 +31,13 @@ export class NewComponent {
 
   onSubmit() {
     console.log(this.form.value);
-    if( this.form.valid ){
+    if( this.form.valid ) {
       const data = {
         ...this.form.value
       }
-      this._ingredientService.create( data ).subscribe( () => this.form.reset() )
+      this._ingredientService.create(data).subscribe({
+        next:value => this._router.navigateByUrl("ingredient/home")
+      })
     }
   }
 }

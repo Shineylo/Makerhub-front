@@ -33,8 +33,8 @@
               <td><ngb-highlight [result]="ingredient.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
               <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
 <!--              <td><ngb-highlight [result]="ingredient.expiration | date : 'longDate':undefined :'fr-BE'" [term]="_ingredientService.searchTerm"></ngb-highlight></td>-->
-              <button type="button" class="btn btn-outline-info" (click)="openVerticallyCentered({content : content})">Stock</button>
-              <button type="button" class="btn btn-outline-danger" routerLink="../delete/{{ingredient.id}}">Supprimer</button>
+              <button type="button" class="btn btn-outline-info" (click)="openVerticallyCentered({content : stock})">Stock</button>
+              <button type="button" class="btn btn-outline-danger" (click)="ingredientId=ingredient.id;ingredientName=ingredient.name;openVerticallyCentered({content : supp})">Supprimer</button>
             </tr>
             </tbody>
           </table>
@@ -50,7 +50,7 @@
 </div>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #stock let-modal>
   <table class="table ">
     <thead>
     <tr>
@@ -62,12 +62,24 @@
       <tr *ngFor="let ingredient of ingredients$ | async" >
         <td><ngb-highlight [result]="ingredient.name"> </ngb-highlight></td>
         <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" ></ngb-highlight></td>
-        <button type="button" class="btn btn-outline-info" (click)="openVerticallyCentered({content : content})">Stock</button>
-        <button type="button" class="btn btn-outline-danger" routerLink="../delete/{{ingredient.id}}">Supprimer</button>
+        <button type="button" class="btn btn-outline-info" >Stock</button>
+        <button type="button" class="btn btn-outline-danger" >Supprimer</button>
       </tr>
     </tbody>
   </table>
   <div class="align-content-center text-center">
+    <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #supp let-modal>
+    <div class="align-content-center text-center">
+      <div>
+        Attention ! L'ingredient {{ingredientName}} sera supprimer totalement ainsi que ses composantes.
+      </div>
+      <button class="btn btn-danger" (click)="delete()">Supprimer</button>
+    </div>
+  <div class="modal-footer">
     <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
   </div>
 </ng-template>
