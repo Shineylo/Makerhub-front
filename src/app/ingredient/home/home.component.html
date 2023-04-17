@@ -99,19 +99,19 @@
       <div class="">
         <div class="card-body p-4 p-sm-5">
           <div class="align-content-center text-center">
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <form [formGroup]="formBrand" (ngSubmit)="onSubmitBrand()">
               <div class="row">
 
                 <div class="form-floating mb-3 ">
                   <select class="form-select" id="brand" formControlName="brand">
                     <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}} </option>
-                    <option>Ajouter</option>
+                    <option>Créer une marque</option>
                   </select>
                   <label for="brand">Marque</label>
                 </div>
 
                 <div class="d-grid">
-                  <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Créer</button>
+                  <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Ajouter</button>
                 </div>
               </div>
             </form>
@@ -123,4 +123,7 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
   </div>
-</ng-template>
+  <ng-template #brandAdd let-modal>
+    fqsdddddddddddddd
+    f
+  </ng-template>

@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit{
   ingredientName = "none";
   ingredientUnit= "";
   ingredientBrands:IngredientBrand[] = [];
-  form!: FormGroup;
+  formBrand!: FormGroup;
   brands:Brand[] = [];
 
   constructor(readonly _ingredientService: IngredientService, pipe: DecimalPipe,private modalService: NgbModal) {
@@ -35,8 +35,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(){
-    this.form = new FormGroup({
-      'name' : new FormControl(''),
+    this.formBrand = new FormGroup({
       'brand' : new FormControl(''),
     });
   }
@@ -61,7 +60,11 @@ export class HomeComponent implements OnInit{
     this.modalService.dismissAll();
   }
 
-  onSubmit() {
+  onSubmitBrand() {
+    if(this.formBrand.valid) {
+      if(this.formBrand.value.brand == "Créer une marque"){
 
+      }
+    }
   }
 }

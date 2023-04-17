@@ -27,7 +27,6 @@ export class NewComponent implements OnInit{
   }
 
   onSubmit() {
-    console.log(this.form.value);
     if( this.form.valid ) {
       const data = {
         ...this.form.value
