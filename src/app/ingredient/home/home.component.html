@@ -1,7 +1,7 @@
 <div class="py-2">
 <div class="row g-0">
   <div class="col-2 text-center" style="height: 100%">
-    <button type="button" class="btn btn-primary" routerLink="../new" >Ajouter un ingredient</button>
+    <button type="button" class="btn btn-primary" routerLink="../newIngType" >Ajouter un ingredient</button>
   </div>
   <div class=" col">
     <div >
@@ -68,11 +68,13 @@
           <td class="px-2">{{ingredientbrand.price | currency:'EUR':'symbol':'1.1-2':'fr'}}</td>
           <td class="px-2"> {{ingredientbrand.quantity | number}} {{ingredientUnit}}</td>
           <td><ngb-highlight class="px-2" [result]="ingredientbrand.expiration | date : 'longDate':undefined :'fr-BE'" ></ngb-highlight></td>
-          <button type="button" class="btn btn-danger" >Supprimer</button>
+          <button type="button" class="btn btn-danger" (click)="ingredientBrandName = ingredientbrand.brand.name;
+          ingredientBrandId = ingredientbrand.brand.id;
+          openVerticallyCentered({content : supp_ing})">Supprimer</button>
         </tr>
       </tbody>
       <tfoot>
-      <button type="button" class="btn btn-primary" (click)="openVerticallyCentered({content : add})">Ajouter</button>
+      <button type="button" class="btn btn-primary" [routerLink]="'../'+ingredientId+'/newIng'" (click)="modal.close('Close click')">Ajouter</button>
       </tfoot>
     </table>
     <div class="align-content-center text-center">
@@ -86,44 +88,21 @@
       <div class="m-4">
         <h3>Attention ! L'ingredient <h2 class="text-danger">{{ingredientName}}</h2> sera supprimer totalement ainsi que ses composantes.</h3>
       </div>
-      <button class="btn btn-danger btn-lg m-2" (click)="delete()">Supprimer</button>
+      <button class="btn btn-danger btn-lg m-2" (click)="deleteIngType()">Supprimer</button>
     </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
   </div>
 </ng-template>
 
-<ng-template #add let-modal>
-  <div class="container">
-    <div class="row">
-      <div class="">
-        <div class="card-body p-4 p-sm-5">
-          <div class="align-content-center text-center">
-            <form [formGroup]="formBrand" (ngSubmit)="onSubmitBrand()">
-              <div class="row">
-
-                <div class="form-floating mb-3 ">
-                  <select class="form-select" id="brand" formControlName="brand">
-                    <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}} </option>
-                    <option>Créer une marque</option>
-                  </select>
-                  <label for="brand">Marque</label>
-                </div>
-
-                <div class="d-grid">
-                  <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Ajouter</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+<ng-template #supp_ing let-modal>
+  <div class="align-content-center text-center">
+    <div class="m-4">
+      <h3>Attention ! L'ingredient <h2 class="text-danger">{{ingredientName}}</h2> de la marque <h2 class="text-danger">{{ingredientBrandName}}</h2> sera supprimer définitivement</h3>
     </div>
+    <button class="btn btn-danger btn-lg m-2" (click)="deleteIng()">Supprimer</button>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
   </div>
-  <ng-template #brandAdd let-modal>
-    fqsdddddddddddddd
-    f
-  </ng-template>
+</ng-template>

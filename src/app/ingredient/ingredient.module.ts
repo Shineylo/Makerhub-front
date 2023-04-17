@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
-import { NewComponent } from './new/new.component';
+import { NewIngTypeComponent } from './new-ing-type/new-ing-type.component';
 import { IngredientRoutingModule } from "./ingredient-routing.module";
-import { UpdateComponent } from './update/update.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { NewIngComponent } from './new-ing/new-ing.component';
 
 @NgModule({
   declarations: [
-    NewComponent,
-    UpdateComponent,
+    NewIngTypeComponent,
+    NewIngComponent,
   ],
   imports: [
     HomeComponent,

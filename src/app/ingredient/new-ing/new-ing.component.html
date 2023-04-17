@@ -1,0 +1,29 @@
+<body>
+<div class="container">
+  <div class="row">
+    <div class="">
+      <div class="card border-0 shadow rounded-3 my-5 " style="background-color: cornflowerblue">
+        <div class="card-body p-4 p-sm-5">
+          <h5 class="card-title text-center mb-5 fw-light fs-5">Création d'ingrédient</h5>
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="row">
+
+              <div class="form-floating mb-3 ">
+                <select class="form-select" id="brand" formControlName="brand">
+                  <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}} </option>
+                  <option>Créer une marque</option>
+                </select>
+                <label for="brand">Marque</label>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Ajouter</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>

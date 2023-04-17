@@ -155,7 +155,7 @@ export class IngredientService {
     this._search$.next();
   }
 
-  delete(id:number){
+  deleteIngType(id:number){
     this._httpClient.delete<any>('http://localhost:8080/api/ingredient/'+id+'/delete').subscribe(
       () => this.refresh()
     );
@@ -215,4 +215,9 @@ export class IngredientService {
       );
   }
 
+  deleteIngBrand(ingId: number,brandId:number) {
+    this._httpClient.delete<any>('http://localhost:8080/api/ingredient/'+ingId+'/'+brandId+'/delete').subscribe(
+      () => this.refresh()
+    );
+  }
 }

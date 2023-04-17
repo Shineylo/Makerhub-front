@@ -25,9 +25,9 @@ export class HomeComponent implements OnInit{
   ingredientId= 0;
   ingredientName = "none";
   ingredientUnit= "";
+  ingredientBrandName = "";
+  ingredientBrandId: number = 0;
   ingredientBrands:IngredientBrand[] = [];
-  formBrand!: FormGroup;
-  brands:Brand[] = [];
 
   constructor(readonly _ingredientService: IngredientService, pipe: DecimalPipe,private modalService: NgbModal) {
     this.ingredients$ = _ingredientService.ingredients$;
@@ -35,36 +35,24 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(){
-    this.formBrand = new FormGroup({
-      'brand' : new FormControl(''),
-    });
   }
 
   openVerticallyCentered({content}: { content: any }) {
     this._ingredientService.getAllIngredientBrand(this.ingredientId).subscribe({
       next:(resp)=> this.ingredientBrands = resp
     });
-    this._ingredientService.getBrandAvailable(this.ingredientId).subscribe({
-      next: (resp)=> {
-        this.brands = resp.filter((b) => {
-          const idsBrand = this.ingredientBrands.map(ib => ib.brand.id)
-          return !idsBrand.includes(b.id)
-        })
-      }
-    })
     this.modalService.open(content, { centered: true });
   }
 
-  delete() {
-    this._ingredientService.delete(this.ingredientId);
+  deleteIngType() {
+    this._ingredientService.deleteIngType(this.ingredientId);
     this.modalService.dismissAll();
   }
 
-  onSubmitBrand() {
-    if(this.formBrand.valid) {
-      if(this.formBrand.value.brand == "Créer une marque"){
-
-      }
-    }
+  deleteIng(){
+    this._ingredientService.deleteIngBrand(this.ingredientId,this.ingredientBrandId);
+    this.modalService.dismissAll();
   }
+
+
 }

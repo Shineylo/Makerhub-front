@@ -6,10 +6,10 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new',
-  templateUrl: './new.component.html',
-  styleUrls: ['./new.component.scss']
+  templateUrl: './new-ing-type.component.html',
+  styleUrls: ['./new-ing-type.component.scss']
 })
-export class NewComponent implements OnInit{
+export class NewIngTypeComponent implements OnInit{
   form!: FormGroup;
   unitOfMeasures:UnitOfMeasure[] = []
 
