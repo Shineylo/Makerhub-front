@@ -19,21 +19,21 @@
               <div class="col w-25 " *ngIf="_ingredientService.loading$ | async">Loading...</div>
           </div>
 
-          <table class="table ">
+          <table class="table">
             <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col" >Ingredient</th>
               <th scope="col"  >Unité de mesure</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let ingredient of ingredients$ | async" >
-              <th scope="row">{{ ingredient.id }}</th>
               <td><ngb-highlight [result]="ingredient.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
               <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" [term]="_ingredientService.searchTerm"></ngb-highlight></td>
-<!--              <td><ngb-highlight [result]="ingredient.expiration | date : 'longDate':undefined :'fr-BE'" [term]="_ingredientService.searchTerm"></ngb-highlight></td>-->
-              <button type="button" class="btn btn-outline-info" (click)="openVerticallyCentered({content : stock})">Stock</button>
+              <button type="button" class="btn btn-outline-info " (click)="ingredientId=ingredient.id;
+                                                                            ingredientName=ingredient.name;
+                                                                            ingredientUnit=ingredient.unitOfMeasure.name;
+                                                                            openVerticallyCentered({content : stock})">Stock</button>
               <button type="button" class="btn btn-outline-danger" (click)="ingredientId=ingredient.id;ingredientName=ingredient.name;openVerticallyCentered({content : supp})">Supprimer</button>
             </tr>
             </tbody>
@@ -51,34 +51,75 @@
 </div>
 
 <ng-template #stock let-modal>
-  <table class="table ">
-    <thead>
-    <tr>
-      <th scope="col" >Ingredient</th>
-      <th scope="col"  >Unité de mesure</th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let ingredient of ingredients$ | async" >
-        <td><ngb-highlight [result]="ingredient.name"> </ngb-highlight></td>
-        <td><ngb-highlight [result]="ingredient.unitOfMeasure.name" ></ngb-highlight></td>
-        <button type="button" class="btn btn-outline-info" >Stock</button>
-        <button type="button" class="btn btn-outline-danger" >Supprimer</button>
+  <div class="p-2">
+    <h2>{{ingredientName}}</h2>
+    <table class="table-group-divider">
+      <thead>
+      <tr>
+        <th scope="col" class="px-2">Marque</th>
+        <th scope="col" class="px-2">Prix</th>
+        <th scope="col" class="px-2">Quantitée</th>
+        <th scope="col" class="px-2">Date de péremption</th>
       </tr>
-    </tbody>
-  </table>
-  <div class="align-content-center text-center">
-    <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
+      </thead>
+      <tbody class="text-center">
+        <tr *ngFor="let ingredientbrand of ingredientBrands" >
+          <td class="px-2">{{ingredientbrand.brand.name}} </td>
+          <td class="px-2">{{ingredientbrand.price | currency:'EUR':'symbol':'1.1-2':'fr'}}</td>
+          <td class="px-2"> {{ingredientbrand.quantity | number}} {{ingredientUnit}}</td>
+          <td><ngb-highlight class="px-2" [result]="ingredientbrand.expiration | date : 'longDate':undefined :'fr-BE'" ></ngb-highlight></td>
+          <button type="button" class="btn btn-danger" >Supprimer</button>
+        </tr>
+      </tbody>
+      <tfoot>
+      <button type="button" class="btn btn-primary" (click)="openVerticallyCentered({content : add})">Ajouter</button>
+      </tfoot>
+    </table>
+    <div class="align-content-center text-center">
+      <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
+    </div>
   </div>
 </ng-template>
 
 <ng-template #supp let-modal>
     <div class="align-content-center text-center">
-      <div>
-        Attention ! L'ingredient {{ingredientName}} sera supprimer totalement ainsi que ses composantes.
+      <div class="m-4">
+        <h3>Attention ! L'ingredient <h2 class="text-danger">{{ingredientName}}</h2> sera supprimer totalement ainsi que ses composantes.</h3>
       </div>
-      <button class="btn btn-danger" (click)="delete()">Supprimer</button>
+      <button class="btn btn-danger btn-lg m-2" (click)="delete()">Supprimer</button>
     </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #add let-modal>
+  <div class="container">
+    <div class="row">
+      <div class="">
+        <div class="card-body p-4 p-sm-5">
+          <div class="align-content-center text-center">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="row">
+
+                <div class="form-floating mb-3 ">
+                  <select class="form-select" id="brand" formControlName="brand">
+                    <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}} </option>
+                    <option>Ajouter</option>
+                  </select>
+                  <label for="brand">Marque</label>
+                </div>
+
+                <div class="d-grid">
+                  <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Créer</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-dark" style="" (click)="modal.close('Close click')">Close</button>
   </div>

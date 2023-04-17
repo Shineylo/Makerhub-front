@@ -16,6 +16,7 @@ import {Ingredient} from "../model/ingredient";
 import {DecimalPipe} from "@angular/common";
 import {Brand} from "../model/brand";
 import {UnitOfMeasure} from "../model/unitOfMeasure";
+import {IngredientBrand} from "../model/ingredientBrand";
 
 interface SearchResult {
   ingredients: Ingredient[];
@@ -97,9 +98,6 @@ export class IngredientService {
   set page(page: number) {
     this._set({ page });
   }
-  set pageSize(pageSize: number) {
-    this._set({ pageSize });
-  }
   set searchTerm(searchTerm: string) {
     this._set({ searchTerm });
   }
@@ -111,7 +109,6 @@ export class IngredientService {
 
   private _search(): Observable<SearchResult> {
     const { pageSize, page, searchTerm } = this._state;
-
 
     if(!this._ingredient)
       return of({ingredients: [], total: 0});
@@ -128,22 +125,6 @@ export class IngredientService {
     return of({ ingredients, total });
   }
 
-  // private _search(): Observable<SearchResult> {
-  //   const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
-  //   return this.getAll().pipe(
-  //     // sort
-  //     map( ingredients => {
-  //       console.log(ingredients);
-  //
-  //       ingredients = sort(ingredients, sortColumn, sortDirection );
-  //       ingredients = ingredients.filter((ingredient) => matches(ingredient, searchTerm, this.pipe));
-  //       ingredients = ingredients.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-  //       const total = ingredients.length;
-  //       return {ingredients, total}
-  //     })
-  //   );
-  // }
-
   getAll(){
     return this._httpClient.get<any[]>('http://localhost:8080/api/ingredient/all').pipe(
       tap(ings => this._ingredient = ings),
@@ -157,16 +138,34 @@ export class IngredientService {
     return this._httpClient.post<any>('http://localhost:8080/api/ingredient/new',form).pipe();
   }
 
-  delete(id:number){
-    console.log('http://localhost:8080/api/ingredient/'+id+'/delete');
-    return this._httpClient.post<any>('http://localhost:8080/api/ingredient/'+id+'/delete',id).pipe();
+  refresh(){
+    this.getAll().subscribe(ingredients => this._ingredient = ingredients);
+    this._search$
+      .pipe(
+        tap(() => this._loading$.next(true)),
+        debounceTime(200),
+        switchMap(() => this._search()),
+        delay(200),
+        tap(() => this._loading$.next(false)),
+      )
+      .subscribe((result) => {
+        this._ingredients$.next(result.ingredients);
+        this._total$.next(result.total);
+      });
+    this._search$.next();
   }
 
-  getAllBrand(){
+  delete(id:number){
+    this._httpClient.delete<any>('http://localhost:8080/api/ingredient/'+id+'/delete').subscribe(
+      () => this.refresh()
+    );
+  }
+
+  getBrandAvailable(id: number){
     return this._httpClient.get<Brand[]>('http://localhost:8080/api/brand/all')
       .pipe(
         map((brands: Brand[]) => {
-          const newBrand = brands.map((brand: Brand) => {
+          brands.map((brand: Brand) => {
             return {id: brand.id, name:  brand.name}
           });
           return brands;
@@ -185,6 +184,29 @@ export class IngredientService {
             return {id: unitOfMeasure.id, name:  unitOfMeasure.name}
           });
           return unitOfMeasures;
+        }),
+        // Gestion de l'erreur
+        catchError((error) => {
+          return throwError(() => new Error("ERREUR"))
+        })
+      );
+  }
+
+  getAllIngredientBrand(id:number){
+    return this._httpClient.get<IngredientBrand[]>('http://localhost:8080/api/ingredient/'+id)
+      .pipe(
+        map((ingredientBrands: IngredientBrand[])=> {
+          ingredientBrands.map((ingredientBrand: IngredientBrand) => {
+            return{
+              id: ingredientBrand.id,
+              ingredient: ingredientBrand.ingredient,
+              brand: ingredientBrand.brand,
+              price: ingredientBrand.price,
+              quantity: ingredientBrand.quantity,
+              expiration: ingredientBrand.expiration
+            }
+          });
+          return ingredientBrands;
         }),
         // Gestion de l'erreur
         catchError((error) => {

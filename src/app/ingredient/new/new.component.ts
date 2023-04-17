@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {IngredientService} from "../../service/ingredient.service";
-import {Brand} from "../../model/brand";
 import {UnitOfMeasure} from "../../model/unitOfMeasure";
 import {Router} from "@angular/router";
 
@@ -10,16 +9,14 @@ import {Router} from "@angular/router";
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.scss']
 })
-export class NewComponent {
+export class NewComponent implements OnInit{
   form!: FormGroup;
-  brands:Brand[] = [];
   unitOfMeasures:UnitOfMeasure[] = []
 
   constructor(private readonly _ingredientService: IngredientService,private readonly _router : Router) {
   }
 
   ngOnInit(){
-
     this.form = new FormGroup({
       'name' : new FormControl(''),
       'unitOfMeasureId' : new FormControl(''),
