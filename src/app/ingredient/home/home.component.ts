@@ -39,7 +39,9 @@ export class HomeComponent implements OnInit{
 
   openVerticallyCentered({content}: { content: any }) {
     this._ingredientService.getAllIngredientBrand(this.ingredientId).subscribe({
-      next:(resp)=> this.ingredientBrands = resp
+      next:(resp)=> {
+        this.ingredientBrands = resp;
+      }
     });
     this.modalService.open(content, { centered: true });
   }

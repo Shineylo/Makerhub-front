@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Brand} from "../../model/brand";
 import {IngredientService} from "../../service/ingredient.service";
 import {IngredientBrand} from "../../model/ingredientBrand";
@@ -28,16 +28,21 @@ export class NewIngComponent implements OnInit{
     this._activatedRoute.params.subscribe((param)=>{
       this.ingredientId = param['id'];
     })
-    this._ingredientService.getBrandAvailable(this.ingredientId).subscribe({
-      next: (resp)=> {
-        this.brands = resp.filter((b) => {
-          const idsBrand = this.ingredientBrands.map(ib => ib.brand.id)
-          return !idsBrand.includes(b.id)
-        })
+    this._ingredientService.getAllIngredientBrand(this.ingredientId).subscribe({
+      next:(resp)=> {
+        this.ingredientBrands = resp;
+        this._ingredientService.getBrandAvailable(this.ingredientId).subscribe({
+          next: (resp)=> {
+            this.brands = resp.filter((b) => {
+              const idsBrand = this.ingredientBrands.map(ib => ib.brand.id);
+              return !idsBrand.includes(b.id);
+            })
+          }
+        });
       }
     });
     this.form = new FormGroup({
-      'brand' : new FormControl(''),
+      'brand' : new FormControl('',[Validators.required]),
     });
   }
 }

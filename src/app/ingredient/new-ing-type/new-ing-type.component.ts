@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {IngredientService} from "../../service/ingredient.service";
 import {UnitOfMeasure} from "../../model/unitOfMeasure";
 import {Router} from "@angular/router";
@@ -18,8 +18,8 @@ export class NewIngTypeComponent implements OnInit{
 
   ngOnInit(){
     this.form = new FormGroup({
-      'name' : new FormControl(''),
-      'unitOfMeasureId' : new FormControl(''),
+      'name' : new FormControl('',[Validators.required]),
+      'unitOfMeasureId' : new FormControl('',[Validators.required]),
     });
     this._ingredientService.getAllUOfM().subscribe({
       next: (resp)=> this.unitOfMeasures = resp

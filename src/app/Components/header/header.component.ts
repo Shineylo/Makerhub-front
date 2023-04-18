@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
+import {Router} from "@angular/router";
+import {LoginService} from "../../service/login.service";
 
 @Component({
   selector: 'app-header',
@@ -7,6 +8,11 @@ import {FormBuilder} from "@angular/forms";
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
+  anyUserConnected?: boolean;
+
+  constructor(private readonly _loginService: LoginService, private readonly _router : Router){
+    this._loginService.connected$.subscribe(user => this.anyUserConnected = user)
+  }
 
   getTitle() {
     let location = window.location.pathname;
@@ -46,5 +52,7 @@ export class HeaderComponent {
   }
 
 
-
+  deconnection() {
+    this._loginService.logout();
+  }
 }

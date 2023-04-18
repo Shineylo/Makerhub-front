@@ -1,0 +1,28 @@
+<section class="gradient-custom" >
+  <div class="container py-5 ">
+    <div class="row d-flex justify-content-center align-items-center ">
+      <div class="col-12 col-md-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-12 text-center">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="mb-md-5 mt-md-4 pb-5">
+                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                <p class="text-white-50 mb-5">Veuillez rentrer votre login et mot de passe!</p>
+                <div class="form-outline form-white mb-4">
+                  <label class="form-label" for="in-utilisateur">Utilisateur</label>
+                  <input type="text" id="in-utilisateur" class="form-control form-control-lg" formControlName="username"/>
+                </div>
+                <div class="form-outline form-white mb-4">
+                  <label class="form-label" for="in-password" >Mot de passe</label>
+                  <input type="password" id="in-password" class="form-control form-control-lg" formControlName="password"/>
+                  <p *ngIf="badcredentials" style="color: crimson; margin-top: 10px;"> L'utilisateur/mot de passe ne sont pas bon</p>
+                </div>
+                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
