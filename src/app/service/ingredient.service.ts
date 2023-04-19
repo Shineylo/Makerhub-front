@@ -73,9 +73,6 @@ export class IngredientService {
     this._search$.next();
   }
 
-  get listingredients(){
-    return this._ingredient;
-  }
   get ingredients$() {
     return this._ingredients$.asObservable();
   }
@@ -134,8 +131,16 @@ export class IngredientService {
     )
   }
 
-  create(form: any){
+  createIngType(form: any){
     return this._httpClient.post<any>('http://localhost:8080/api/ingredient/new',form).pipe();
+  }
+
+  createIngExistingBrand(form: any) {
+    return this._httpClient.post<any>('http://localhost:8080/api/ingredient/newIngExistingBrand',form).pipe();
+  }
+
+  createIngNewBrand(form: any) {
+    return this._httpClient.post<any>('http://localhost:8080/api/ingredient/newIngNewBrand',form).pipe();
   }
 
   refresh(){

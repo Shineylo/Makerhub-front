@@ -1,1 +1,51 @@
-
+<div class="py-2" style="display: flex; flex:1;">
+    <div class="col " style="display: flex; align-items: center; ">
+      <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%234285F4&ctz=Europe%2FBrussels&title=PatiStock&showTabs=1&showPrint=0&src=ZnIuYmUjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%230B8043" style="border:solid 1px #777" height="100%" width="100%"></iframe>
+    </div>
+    <div class="col ">
+      <div class="row  h-50 align-content-center text-center g-0 border border-dark" >
+        <div class="w-100 h-100" >
+          <h2 class="text-bg-danger border-bottom border-black">Bientôt périmé</h2>
+          <table class="table w-100 h-auto">
+            <thead>
+            <tr>
+              <th scope="col" >Ingredient</th>
+              <th scope="col" >Marque</th>
+              <th scope="col" >Quantitié</th>
+              <th scope="col" >Date de péremption</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ingredient of ingredients " >
+              <td>{{ingredient.name}}</td>
+              <td>/</td>
+              <td>{{ingredient.unitOfMeasure.name}}</td>
+              <td>/</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row  h-50 align-content-center text-center g-0 border border-dark">
+        <div class="w-100 h-100">
+          <h2 class="text-bg-danger border-bottom border-black">Stock faible</h2>
+          <table class="table w-100 h-auto">
+            <thead>
+            <tr>
+              <th scope="col" >Ingredient</th>
+              <th scope="col" >Marque</th>
+              <th scope="col" >Quantitié</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ingredient of ingredients" >
+              <td>{{ingredient.name}}</td>
+              <td>/</td>
+              <td>{{ingredient.unitOfMeasure.name}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>

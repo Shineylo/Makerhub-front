@@ -1,10 +1,25 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {Brand} from "../../model/brand";
 import {IngredientService} from "../../service/ingredient.service";
 import {IngredientBrand} from "../../model/ingredientBrand";
 import {Subscription} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+
+function inFutureDays( days:number ): ValidatorFn{
+  return (control: AbstractControl) => {
+    let minDate = new Date()
+    minDate.setDate( minDate.getDate()+days )
+    minDate = new Date( minDate.getFullYear(), minDate.getMonth(), minDate.getDate() )
+    const inputValue = new Date(control.value);
+
+    if( inputValue >= minDate )
+      return null;
+    return {
+      notInFuture :"Date was not in the future"
+    }
+  }
+}
 
 @Component({
   selector: 'app-new-ing',
@@ -13,15 +28,15 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class NewIngComponent implements OnInit{
   form!: FormGroup;
+  formNewBrand!: FormGroup;
+  formExistingBrand!: FormGroup;
   brands:Brand[] = [];
   ingredientBrands:IngredientBrand[] = [];
   ingredientId =0;
+  brandId = 0;
+  newBrand!: boolean ;
 
-  constructor(readonly _ingredientService: IngredientService,private readonly _activatedRoute: ActivatedRoute) {
-  }
-
-  onSubmit() {
-
+  constructor(readonly _ingredientService: IngredientService,private readonly _activatedRoute: ActivatedRoute,private readonly _router: Router) {
   }
 
   ngOnInit(): void {
@@ -42,7 +57,55 @@ export class NewIngComponent implements OnInit{
       }
     });
     this.form = new FormGroup({
-      'brand' : new FormControl('',[Validators.required]),
+      'brandId' : new FormControl('',[Validators.required]),
     });
+    this.formNewBrand = new FormGroup({
+      'brandName' : new FormControl('',[Validators.required]),
+      'quantity' : new FormControl('',[Validators.required,Validators.min(1)]),
+      'expiration' : new FormControl('',[Validators.required,inFutureDays(3)]),
+      'price' : new FormControl('',[Validators.required,Validators.min(0.01)]),
+    });
+    this.formExistingBrand = new FormGroup({
+      'quantity' : new FormControl('',[Validators.required,Validators.min(1)]),
+      'expiration' : new FormControl('',[Validators.required,inFutureDays(3)]),
+      'price' : new FormControl('',[Validators.required,Validators.min(0.01)]),
+    });
+  }
+
+  onBrandChoice() {
+    if( this.form.valid ) {
+      if(this.form.value.brandId == 0){
+        this.newBrand = true;
+      }else{
+        this.brandId = this.form.value.brandId;
+        this.newBrand = false;
+      }
+    }
+  }
+
+  onCreateExistingBrand() {
+    if( this.formExistingBrand.valid ){
+      const data = {
+        ...this.formExistingBrand.value,
+        ingredientId : this.ingredientId,
+        brandId : this.brandId
+      }
+      console.log(data);
+      this._ingredientService.createIngExistingBrand( data ).subscribe({
+        next:value => this._router.navigateByUrl("ingredient/home")
+      })
+    }
+  }
+
+  onCreateNewBrand() {
+    if( this.formNewBrand.valid ){
+      const data = {
+        ...this.formNewBrand.value,
+        ingredientId : this.ingredientId,
+      }
+      this._ingredientService.createIngNewBrand( data ).subscribe({
+        next:value => this._router.navigateByUrl("ingredient/home")
+      })
+    }
   }
 }

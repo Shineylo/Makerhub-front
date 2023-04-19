@@ -5,12 +5,11 @@ import {
 } from '@angular/core';
 import { IngredientService } from "../../service/ingredient.service";
 import { RouterLink } from "@angular/router";
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgbHighlight, NgbModal, NgbPagination} from "@ng-bootstrap/ng-bootstrap";
+import { FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { NgbHighlight, NgbModal, NgbPagination} from "@ng-bootstrap/ng-bootstrap";
 import { Observable} from "rxjs";
 import { Ingredient } from "../../model/ingredient";
 import {IngredientBrand} from "../../model/ingredientBrand";
-import {Brand} from "../../model/brand";
 
 @Component({
   selector: 'app-accueil',

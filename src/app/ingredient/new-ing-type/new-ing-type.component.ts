@@ -31,7 +31,7 @@ export class NewIngTypeComponent implements OnInit{
       const data = {
         ...this.form.value
       }
-      this._ingredientService.create(data).subscribe({
+      this._ingredientService.createIngType(data).subscribe({
         next:value => this._router.navigateByUrl("ingredient/home")
       })
     }

@@ -5,17 +5,75 @@
       <div class="card border-0 shadow rounded-3 my-5 " style="background-color: cornflowerblue">
         <div class="card-body p-4 p-sm-5">
           <h5 class="card-title text-center mb-5 fw-light fs-5">Création d'ingrédient</h5>
-          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <form [formGroup]="form" (ngSubmit)="onBrandChoice()" *ngIf="newBrand === undefined">
             <div class="row">
-
               <div class="form-floating mb-3 ">
-                <select class="form-select" id="brand" formControlName="brand">
+                <select class="form-select" id="brand" formControlName="brandId">
                   <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}} </option>
-                  <option>Créer une marque</option>
+                  <option value=0>Créer une marque</option>
                 </select>
                 <label for="brand">Marque</label>
               </div>
-
+              <div class="d-grid">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Continuer</button>
+              </div>
+            </div>
+          </form>
+          <form [formGroup]="formNewBrand" (ngSubmit)="onCreateNewBrand()" *ngIf="newBrand == true">
+            <div class="row">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="in-brand" formControlName="brandName">
+                <label for="in-brand">Marque</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="in-quantity" formControlName="quantity">
+                <label for="in-quantity">Quantité</label>
+                <p class="error" *ngIf="formNewBrand.controls['quantity'].hasError('min')">
+                  La quantité doit être supérieur ou égale à 1.
+                </p>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="in-price" formControlName="price">
+                <label for="in-price">Prix</label>
+                <p class="error" *ngIf="formNewBrand.controls['price'].hasError('min')">
+                  Le prix doit être supérieur à 0.01€.
+                </p>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="in-expiration" formControlName="expiration">
+                <label for="in-expiration">Date de péremption</label>
+                <p class="error" *ngIf="formNewBrand.controls['expiration'].dirty && formNewBrand.controls['expiration'].hasError('notInFuture')">
+                  La date doit être au minimum dans 3 jours.
+                </p>
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Ajouter</button>
+              </div>
+            </div>
+          </form>
+          <form [formGroup]="formExistingBrand" (ngSubmit)="onCreateExistingBrand()" *ngIf="newBrand == false">
+            <div class="row">
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="in-quantity" formControlName="quantity">
+                <label for="in-quantity">Quantité</label>
+                <p class="error" *ngIf="formExistingBrand.controls['quantity'].hasError('min')">
+                  La quantité doit être supérieur ou égale à 1.
+                </p>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="in-price" formControlName="price">
+                <label for="in-price">Prix</label>
+                <p class="error" *ngIf="formExistingBrand.controls['price'].hasError('min')">
+                  Le prix doit être supérieur à 0.01€.
+                </p>
+              </div>
+              <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="in-expiration" formControlName="expiration">
+                <label for="in-expiration">Date de péremption</label>
+                <p class="error" *ngIf="formExistingBrand.controls['expiration'].dirty && formExistingBrand.controls['expiration'].hasError('notInFuture')">
+                  La date doit être au minimum dans 3 jours.
+                </p>
+              </div>
               <div class="d-grid">
                 <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Ajouter</button>
               </div>
